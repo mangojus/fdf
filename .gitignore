@@ -1,0 +1,6 @@
+*.o
+*.a
+*.d
+.build
+a.out
+fdf
