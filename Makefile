@@ -6,7 +6,7 @@
 #    By: rshin <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 17:37:30 by rshin             #+#    #+#              #
-#    Updated: 2025/03/04 01:40:43 by rshin            ###   ########.fr        #
+#    Updated: 2025/03/11 22:35:24 by rshin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,12 @@ SRC_DIR = src
 
 BLD_DIR = .build
 
-SRC = $(SRC_DIR)/main.c
+SRC = $(SRC_DIR)/main2.c \
+	  $(SRC_DIR)/utils.c \
+	  $(SRC_DIR)/parsing.c \
+	  $(SRC_DIR)/init.c \
+	  $(SRC_DIR)/rendering.c
+#	  $(SRC_DIR)/controls.c
 
 INC = include
 

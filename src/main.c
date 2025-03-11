@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:16:45 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/10 20:10:05 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/10 22:28:51 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,37 @@
 #include "libft.h"
 #include <stdio.h> // remove
 
-void	set_pixel(int x, int y, int color, t_data *img)
+void	ft_bresenham(t_env *img)
+{
+	int	dx;
+	int	dy;
+	int x;
+	int	y;
+	int	i;
+	int p;
+
+	dx = x1 - x0;
+	dy = y1 - y0;
+	if	(dx != 0);
+	{
+		y = y0;
+		p = 2*dy - dx;
+		while (i <= dx)
+		{
+			set_pixel(x0 + i, y);
+			i++;
+			if (p >= 0)
+			{
+				y += 1;
+				p = p - 2*dx;
+			}
+			else
+				p = p + 2*dy;
+		}
+	}
+}
+
+void	set_pixel(int x, int y, int color, t_env *img)
 {
 	int	offset;
 
@@ -26,7 +56,7 @@ void	set_pixel(int x, int y, int color, t_data *img)
 	img->addr[offset + 3] = (color >> 24) & 0xFF;
 }
 
-void	ft_render_map(int **map, int row, int col, t_data *img)
+void	ft_render_map(int **map, int row, int col, t_env *img)
 {
 	int	x;
 	int y;
@@ -42,7 +72,7 @@ void	ft_render_map(int **map, int row, int col, t_data *img)
 				color = 0xFF0000;
 			else
 				color = 0xFFFFFF;
-			set_pixel(x * 60, y * 60, color, img);
+			ft_bresenham(x , y * 60, color, img);
 			x++;
 		}
 		y++;	
@@ -93,7 +123,7 @@ int	main(void)
 {
 	void	*mlx;
 	void	*mlx_win;
-	t_data	*img;
+	t_env	*img;
 	char	*str;
 	int		fd;
 	char	*line;
