@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:24:01 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/11 23:29:54 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/12 19:35:02 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 # include "mlx.h"
 # include "mlx_int.h"
 # include <stdio.h> //remove
+# include <math.h>
 
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 2000
+# define HEIGHT 2000
 
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
@@ -70,11 +71,15 @@ typedef struct	s_env
 	t_cam	*cam;	
 }				t_env;
 
+void	ft_scale_coordinates(t_point *p, t_env *env);
+void	ft_set_pixel(t_point p, t_env *env);
 void	ft_init_env(t_env *env);
 void	ft_init_map(t_map *map);
 void	ft_init_point(t_point *p);
 void	ft_init_cam(t_cam *cam);
 void	ft_parse_map(t_map *map, int fd);
+void	ft_draw_line_h(t_point p1, t_point p2, t_env *env);
+void	ft_draw_line_v(t_point p1, t_point p2, t_env *env);
 void	ft_render_map(t_env *env);
 void	ft_free_all(char **str);
 size_t	ft_count_char(char const *str, char c);

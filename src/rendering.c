@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:55:07 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/12 00:43:06 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/12 19:52:13 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,21 @@ static void	ft_scale_img(t_env *env, t_cam *cam)
 	cam->x_shift = (WIDTH - env->img_width) / 2;
 	cam->y_shift = (HEIGHT - env->img_height) / 2;
 }
-
-static void	ft_scale_coordinates(t_point *p, t_env *env)
+void	ft_scale_coordinates(t_point *p, t_env *env)
 {
-	p->x = p->x * (env->img_width / env->map->col);
-	p->y = p->y * (env->img_height / env->map->row);
+	p->x *= (env->img_width / env->map->col);
+	p->y *= (env->img_width / env->map->row);
+	p->x = (p->x - p->y) * cos(M_PI / 6);
+	p->y = (p->x + p->y) * sin(M_PI / 6) - p->z;
+	if (p->y < 0)
+        p->y = 0;
 }
 
-static void	ft_set_pixel(t_point p, t_env *env)
+void	ft_set_pixel(t_point p, t_env *env)
 {
 	size_t	offset;
 
 //	p.y *= cam->zoom;
-	ft_scale_coordinates(&p, env);
 	offset = (p.y * env->size_line) + (p.x * (env->bpp / 8));
 
 	env->addr[offset] = p.color & 0xFF;
@@ -51,9 +53,53 @@ int	ft_interpolate_color(t_map *map, int min_color, int max_color, )
 	
 }
 */
-static void	ft_render_point(t_env *env, t_map *map)
+static t_point	ft_set_point(int x, int y, t_env *env)
 {
 	t_point	p;
+
+	ft_init_point(&p);
+	p.x = x;
+	p.y = y;
+	p.z = env->map->matrix[y][x];
+	if (p.z == 0)
+		p.color = 0xFF0000;
+	else
+		p.color = 0xFFFFFF;
+	return (p);
+}
+
+static void	ft_render_line(t_env *env, t_map *map)
+{
+	t_point	p1;
+	t_point	p2;
+
+	ft_init_point(&p1);
+	while (p1.y < map->row)
+	{
+		p1.x = 0;
+		while (p1.x < map->col)
+		{
+			p1 = ft_set_point(p1.x, p1.y, env);
+			if (p1.x < map->col - 1)
+			{
+				p2 = ft_set_point(p1.x + 1, p1.y, env);
+				ft_draw_line_h(p1, p2, env);
+			}
+			if (p1.y < map->row - 1)
+			{
+				p2 = ft_set_point(p1.x, p1.y + 1, env);
+				ft_draw_line_v(p1, p2, env);
+			}
+			p1.x++;
+		}
+		p1.y++;
+	}
+}
+/*
+static void	ft_render_point(t_env *env, t_map *map)
+{
+	t_point	p1;
+	t_point	p2;
 
 	ft_init_point(&p);
 	while (p.y < map->row)
@@ -67,13 +113,15 @@ static void	ft_render_point(t_env *env, t_map *map)
 				p.color = 0xFF0000;
 			else
 				p.color = 0xFFFFFF;
-			ft_set_pixel(p, env);
+//			ft_set_pixel(p, env);
+			if (map->matrix[p.y][p.x + 1])
+				ft_bresenham(p1, p2, env);
 			p.x++;
 		}
 		p.y++;
 	}
 }
-
+*/
 void	ft_render_map(t_env *env)
 {
 	ft_scale_img(env, env->cam);
@@ -81,6 +129,6 @@ void	ft_render_map(t_env *env)
 	if (!env->img)
 		return ;
 	env->addr = mlx_get_data_addr(env->img, &env->bpp, &env->size_line, &env->endian);
-	ft_render_point(env, env->map);
+	ft_render_line(env, env->map);
 	mlx_put_image_to_window(env->mlx, env->win, env->img, env->cam->x_shift, env->cam->y_shift);
 }
