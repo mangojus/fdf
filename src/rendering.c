@@ -12,11 +12,26 @@
 
 #include "fdf.h"
 
-static void	ft_set_pixel(t_point p, t_cam *cam, t_env *env)
+static void	ft_scale_img(t_env *env, t_cam *cam)
+{
+	env->img_width = WIDTH * 2 / 3;
+	env->img_height = HEIGHT * 2 / 3;
+	cam->x_shift = (WIDTH - env->img_width) / 2;
+	cam->y_shift = (HEIGHT - env->img_height) / 2;
+}
+
+static void	ft_scale_coordinates(t_point *p, t_env *env)
+{
+	p->x = p->x * (env->img_width / env->map->col);
+	p->y = p->y * (env->img_height / env->map->row);
+}
+
+static void	ft_set_pixel(t_point p, t_env *env)
 {
 	size_t	offset;
 
-	p.y *= cam->zoom;
+//	p.y *= cam->zoom;
+	ft_scale_coordinates(&p, env);
 	offset = (p.y * env->size_line) + (p.x * (env->bpp / 8));
 
 	env->addr[offset] = p.color & 0xFF;
@@ -36,7 +51,6 @@ int	ft_interpolate_color(t_map *map, int min_color, int max_color, )
 	
 }
 */
-
 static void	ft_render_point(t_env *env, t_map *map)
 {
 	t_point	p;
@@ -53,7 +67,7 @@ static void	ft_render_point(t_env *env, t_map *map)
 				p.color = 0xFF0000;
 			else
 				p.color = 0xFFFFFF;
-			ft_set_pixel(p, env->cam, env);
+			ft_set_pixel(p, env);
 			p.x++;
 		}
 		p.y++;
@@ -62,10 +76,11 @@ static void	ft_render_point(t_env *env, t_map *map)
 
 void	ft_render_map(t_env *env)
 {
-	env->img = mlx_new_image(env->mlx, 800, 600);
+	ft_scale_img(env, env->cam);
+	env->img = mlx_new_image(env->mlx, env->img_width, env->img_height);
 	if (!env->img)
 		return ;
 	env->addr = mlx_get_data_addr(env->img, &env->bpp, &env->size_line, &env->endian);
 	ft_render_point(env, env->map);
-	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+	mlx_put_image_to_window(env->mlx, env->win, env->img, env->cam->x_shift, env->cam->y_shift);
 }

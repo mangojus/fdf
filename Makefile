@@ -20,7 +20,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 IFLAGS = -I $(INC) -I $(LIBMLX) -I $(LIBFT)/$(INC) -MMD -MP
 
-MLXFLAGS = -lXext -lX11 -lm -lz
+LDFLAGS = -lX11 -lXext -lm -lz
 
 RM = rm -rf
 
@@ -57,7 +57,7 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIB_A) Makefile
 	make -C $(LIBFT)
 	make -C $(LIBMLX)
-	$(CC) $(CFLAGS) $(IFLAGS) $(MLXFLAGS) $(OBJ) $(LIB_A) -o $(NAME)
+	$(CC) $(CFLAGS) $(IFLAGS) $(OBJ) $(LIB_A) $(LDFLAGS) -o $(NAME)
 
 $(BLD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)

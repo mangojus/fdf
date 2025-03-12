@@ -28,7 +28,7 @@ int		main(void)
 	env->mlx = mlx_init();
 	if (env->mlx == NULL)
 		return (1);
-	env->win = mlx_new_window(env->mlx, 800, 600, "fdf");
+	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "fdf");
 	if (env->win == NULL)
 		return (1);
 	ft_render_map(env);

@@ -50,6 +50,8 @@ typedef struct	s_cam
 {
 	float	x;
 	float	y;
+	int	x_shift;
+	int	y_shift;
 	float	zoom;
 }				t_cam;
 
@@ -62,8 +64,8 @@ typedef struct	s_env
 	int		bpp;
 	int		size_line;
 	int		endian;
-	int		width;
-	int		height;
+	int		img_width;
+	int		img_height;
 	t_map	*map;
 	t_cam	*cam;	
 }				t_env;
