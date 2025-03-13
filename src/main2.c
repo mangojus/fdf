@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:31:46 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/12 17:58:30 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/13 18:57:03 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		main(void)
 	t_env	*env;
 	int	fd;
 
-	fd = open("./maps/10-2.fdf", O_RDONLY);
+	fd = open("./4x4.fdf", O_RDONLY);
 	if (fd == -1)
 		return (1);
 	env = malloc(sizeof(t_env));
@@ -28,7 +28,7 @@ int		main(void)
 	env->mlx = mlx_init();
 	if (env->mlx == NULL)
 		return (1);
-	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "fdf");
+	env->win = mlx_new_window(env->mlx, W_WIDTH, W_HEIGHT, "fdf");
 	if (env->win == NULL)
 		return (1);
 	ft_render_map(env);

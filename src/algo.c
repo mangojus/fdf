@@ -6,7 +6,7 @@
 /*   By: rshin <rshin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:44:15 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/12 19:32:52 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/13 20:29:25 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,24 @@ void	ft_isometric_projection(t_point *p, t_env *env)
 	p->iso_y = (p->x + p->y) * sin(M_PI / 6) - p->z;
 }
 */
-void	ft_draw_line_h(t_point p1, t_point p2, t_env *env)
+void	ft_draw_line_h(t_point p0, t_point p1, t_env *env)
 {
 	int	dx;
 	int	dy;
 	int	d;
-	int	tmp;
+	int	i;
+	int	y;
 	int	dir;
 
+	ft_scale_coordinates(&p0, env);
 	ft_scale_coordinates(&p1, env);
-	ft_scale_coordinates(&p2, env);
-	dx = p2.x - p1.x;
-	dy = p2.y - p1.y;
+	if (p0.x > p1.x)
+	{
+		ft_swap_value(&p0.x, &p1.x);
+		ft_swap_value(&p0.y, &p1.y);
+	}
+	dx = p1.x - p0.x;
+	dy = p1.y - p0.y;
 	if (dy < 0)
 		dir = -1;
 	else
@@ -37,35 +43,42 @@ void	ft_draw_line_h(t_point p1, t_point p2, t_env *env)
 	dy *= dir;
 	if (dx != 0)
 	{
-		tmp = p1.y;
-		d = 2*dy - dx;;
-		while (p1.x <= p2.x)
+		y = p0.y;
+		d = 2*dy - dx;
+		i = 0;
+		while (i <= dx)
 		{
-			ft_set_pixel(p1, env);
-			p1.x++;
+//			ft_set_pixel(p1, env);
+			mlx_pixel_put(env->mlx, env->win, p0.x + i, y, p0.color);
+			i++;
 			if (d >= 0)
 			{
-				p1.y += dir;
-				d = d - 2*dx;
+				y += dir;
+				d -= 2*dx;
 			}
-			d = d + 2*dy;
+			d += 2*dy;
 		}
-		p1.y = tmp;
 	}
 }
 
-void	ft_draw_line_v(t_point p1, t_point p2, t_env *env)
+void	ft_draw_line_v(t_point p0, t_point p1, t_env *env)
 {
 	int	dx;
 	int	dy;
 	int	d;
-	int	tmp;
+	int	i;
+	int	x;
 	int	dir;
 
+	ft_scale_coordinates(&p0, env);
 	ft_scale_coordinates(&p1, env);
-	ft_scale_coordinates(&p2, env);
-	dx = p2.x - p1.x;
-	dy = p2.y - p1.y;
+	if (p0.y > p1.y)
+	{
+		ft_swap_value(&p0.x, &p1.x);
+		ft_swap_value(&p0.y, &p1.y);
+	}
+	dx = p1.x - p0.x;
+	dy = p1.y - p0.y;
 	if (dx < 0)
 		dir = -1;
 	else
@@ -73,19 +86,20 @@ void	ft_draw_line_v(t_point p1, t_point p2, t_env *env)
 	dx *= dir;
 	if (dy != 0)
 	{
-		tmp = p1.x;
-		d = 2*dx - dy;;
-		while (p1.y <= p2.y)
+		x = p0.x;
+		d = 2*dx - dy;
+		i = 0;
+		while (i <= dy)
 		{
-			ft_set_pixel(p1, env);
-			p1.y++;
+//			ft_set_pixel(p1, env);
+			mlx_pixel_put(env->mlx, env->win, x, p0.y + i, p0.color);
+			i++;
 			if (d >= 0)
 			{
-				p1.x += dir;
-				d = d - 2*dy;
+				x += dir;
+				d -= 2*dy;
 			}
-			d = d + 2*dx;
+			d += 2*dx;
 		}
-		p1.y = tmp;
 	}
 }

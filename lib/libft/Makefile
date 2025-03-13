@@ -6,7 +6,7 @@
 #    By: rshin <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 20:01:21 by rshin             #+#    #+#              #
-#    Updated: 2025/03/03 23:16:28 by rshin            ###   ########.fr        #
+#    Updated: 2025/03/13 20:06:44 by rshin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,8 @@ LIBALGO = ft_power.c \
 		  ft_factorial.c \
 		  ft_fibonacci.c \
 		  ft_is_prime.c \
-		  ft_next_prime.c
+		  ft_next_prime.c \
+		  ft_swap_value.c
 
 SRC += $(addprefix $(SRC_DIR)libalgo/, $(LIBALGO))
 

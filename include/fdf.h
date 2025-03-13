@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:24:01 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/12 19:35:02 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/13 18:50:43 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <stdio.h> //remove
 # include <math.h>
 
-# define WIDTH 900
-# define HEIGHT 900
+# define W_WIDTH 900
+# define W_HEIGHT 900
 
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
@@ -52,13 +52,13 @@ typedef struct	s_cam
 	double	x;
 	double	y;
 	double	z;
-	int	x_shift;
-	int	y_shift;
+	double	pitch;
+	double	yaw;
+	double	roll;
 	double	angle;
 	double	cos_angle;
 	double	sin_angle;
-	
-	double	zoom;
+	float	zoom;
 }				t_cam;
 
 typedef struct	s_env
@@ -70,8 +70,8 @@ typedef struct	s_env
 	int		bpp;
 	int		size_line;
 	int		endian;
-	int		img_width;
-	int		img_height;
+	int		img_offset_x;
+	int		img_offset_y;
 	t_map	*map;
 	t_cam	*cam;	
 }				t_env;
