@@ -42,7 +42,13 @@ void	ft_init_cam(t_cam *cam)
 {
 	cam->x = 0;
 	cam->y = 0;
+	cam->z = 0;
+	cam->x_shift = 0;
+	cam->y_shift = 0;
+	cam->angle = 30;
 	cam->zoom = 50;
+	cam->cos_angle = cos(cam->angle * M_PI / 180); 
+	cam->sin_angle = sin(cam->angle * M_PI / 180); 
 }
 
 void	ft_init_point(t_point *p)

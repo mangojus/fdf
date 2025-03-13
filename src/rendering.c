@@ -14,19 +14,37 @@
 
 static void	ft_scale_img(t_env *env, t_cam *cam)
 {
-	env->img_width = WIDTH * 2 / 3;
-	env->img_height = HEIGHT * 2 / 3;
+	env->img_width = WIDTH * 1 / 3;
+	env->img_height = HEIGHT * 1 / 3;
+	cam->angle = 30;
+	cam->cos_angle = cos(cam->angle * M_PI / 180);
+	cam->sin_angle = sin(cam->angle * M_PI / 180);
 	cam->x_shift = (WIDTH - env->img_width) / 2;
 	cam->y_shift = (HEIGHT - env->img_height) / 2;
 }
+
 void	ft_scale_coordinates(t_point *p, t_env *env)
 {
-	p->x *= (env->img_width / env->map->col);
-	p->y *= (env->img_width / env->map->row);
-	p->x = (p->x - p->y) * cos(M_PI / 6);
-	p->y = (p->x + p->y) * sin(M_PI / 6) - p->z;
+	double	scale_factor;
+	double	scale_x;
+	double	scale_y;
+
+	scale_x = (env->img_width / env->map->col);
+	scale_y = (env->img_height / env->map->row);
+	if (scale_x < scale_y)
+		scale_factor = scale_x;
+	else
+		scale_factor = scale_y;
+//	p->x *= (env->img_width / env->map->col);
+//	p->y *= (env->img_height / env->map->row);
+	p->x *= scale_factor;
+	p->y *= scale_factor;
+	p->x = (p->x - p->y) * env->cam->cos_angle;
+	p->y = (p->x + p->y) * env->cam->sin_angle - p->z;
+	p->x += (env->img_width / 2);
+	p->y += (env->img_height / 2);
 	if (p->y < 0)
-        p->y = 0;
+		p->y = 0;
 }
 
 void	ft_set_pixel(t_point p, t_env *env)

@@ -19,8 +19,8 @@
 # include <stdio.h> //remove
 # include <math.h>
 
-# define WIDTH 2000
-# define HEIGHT 2000
+# define WIDTH 900
+# define HEIGHT 900
 
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
@@ -49,11 +49,16 @@ typedef struct	s_point
 
 typedef struct	s_cam
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
+	double	z;
 	int	x_shift;
 	int	y_shift;
-	float	zoom;
+	double	angle;
+	double	cos_angle;
+	double	sin_angle;
+	
+	double	zoom;
 }				t_cam;
 
 typedef struct	s_env
