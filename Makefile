@@ -6,7 +6,7 @@
 #    By: rshin <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 17:37:30 by rshin             #+#    #+#              #
-#    Updated: 2025/03/12 17:08:54 by rshin            ###   ########.fr        #
+#    Updated: 2025/03/14 14:31:09 by rshin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC_DIR = src
 
 BLD_DIR = .build
 
-SRC = $(SRC_DIR)/main2.c \
+SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/utils.c \
 	  $(SRC_DIR)/parsing.c \
 	  $(SRC_DIR)/init.c \

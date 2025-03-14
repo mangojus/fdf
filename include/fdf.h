@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:24:01 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/13 18:50:43 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/14 20:30:20 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <stdio.h> //remove
 # include <math.h>
 
-# define W_WIDTH 900
-# define W_HEIGHT 900
+# define W_WIDTH 1920
+# define W_HEIGHT 1080
 
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
@@ -83,8 +83,7 @@ void	ft_init_map(t_map *map);
 void	ft_init_point(t_point *p);
 void	ft_init_cam(t_cam *cam);
 void	ft_parse_map(t_map *map, int fd);
-void	ft_draw_line_h(t_point p1, t_point p2, t_env *env);
-void	ft_draw_line_v(t_point p1, t_point p2, t_env *env);
+void	ft_line_algo(t_point p1, t_point p2, t_env *env);
 void	ft_render_map(t_env *env);
 void	ft_free_all(char **str);
 size_t	ft_count_char(char const *str, char c);

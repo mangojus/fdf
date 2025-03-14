@@ -6,54 +6,45 @@
 /*   By: rshin <rshin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:44:15 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/13 20:29:25 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/14 20:22:38 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 /*
-void	ft_isometric_projection(t_point *p, t_env *env)
+static void	ft_swap_point(t_point *a, t_point *b)
 {
-	p->iso_x = (p->x - p->y) * cos(M_PI / 6);
-	p->iso_y = (p->x + p->y) * sin(M_PI / 6) - p->z;
+	t_point	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 */
-void	ft_draw_line_h(t_point p0, t_point p1, t_env *env)
+static void	ft_bresenham_h(t_point a, t_point b, t_env *env)
 {
+	int	d;
+	int	dir;
 	int	dx;
 	int	dy;
-	int	d;
-	int	i;
-	int	y;
-	int	dir;
 
-	ft_scale_coordinates(&p0, env);
-	ft_scale_coordinates(&p1, env);
-	if (p0.x > p1.x)
-	{
-		ft_swap_value(&p0.x, &p1.x);
-		ft_swap_value(&p0.y, &p1.y);
-	}
-	dx = p1.x - p0.x;
-	dy = p1.y - p0.y;
+	dx = b.x - a.x;
+	dy = b.y - a.y;
+	dir = 1;
 	if (dy < 0)
 		dir = -1;
-	else
-		dir = 1;
 	dy *= dir;
 	if (dx != 0)
 	{
-		y = p0.y;
 		d = 2*dy - dx;
-		i = 0;
-		while (i <= dx)
+		while (a.x <= b.x)
 		{
-//			ft_set_pixel(p1, env);
-			mlx_pixel_put(env->mlx, env->win, p0.x + i, y, p0.color);
-			i++;
+			ft_set_pixel(a, env);
+			mlx_pixel_put(env->mlx, env->win, a.x, a.y, a.color);
+			a.x++;
 			if (d >= 0)
 			{
-				y += dir;
+				a.y += dir;
 				d -= 2*dx;
 			}
 			d += 2*dy;
@@ -61,45 +52,60 @@ void	ft_draw_line_h(t_point p0, t_point p1, t_env *env)
 	}
 }
 
-void	ft_draw_line_v(t_point p0, t_point p1, t_env *env)
+static void	ft_bresenham_v(t_point a, t_point b, t_env *env)
 {
+	int	d;
+	int	dir;
 	int	dx;
 	int	dy;
-	int	d;
-	int	i;
-	int	x;
-	int	dir;
 
-	ft_scale_coordinates(&p0, env);
-	ft_scale_coordinates(&p1, env);
-	if (p0.y > p1.y)
-	{
-		ft_swap_value(&p0.x, &p1.x);
-		ft_swap_value(&p0.y, &p1.y);
-	}
-	dx = p1.x - p0.x;
-	dy = p1.y - p0.y;
+	dx = b.x - a.x;
+	dy = b.y - a.y;
+	dir = 1;
 	if (dx < 0)
 		dir = -1;
-	else
-		dir = 1;
 	dx *= dir;
 	if (dy != 0)
 	{
-		x = p0.x;
 		d = 2*dx - dy;
-		i = 0;
-		while (i <= dy)
+		while (a.y <= b.y)
 		{
-//			ft_set_pixel(p1, env);
-			mlx_pixel_put(env->mlx, env->win, x, p0.y + i, p0.color);
-			i++;
+			ft_set_pixel(a, env);
+			mlx_pixel_put(env->mlx, env->win, a.x, a.y, a.color);
+			a.y++;
 			if (d >= 0)
 			{
-				x += dir;
+				a.x += dir;
 				d -= 2*dy;
 			}
 			d += 2*dx;
 		}
 	}
 }
+
+void	ft_line_algo(t_point a, t_point b, t_env *env)
+{
+	ft_scale_coordinates(&a, env);
+	ft_scale_coordinates(&b, env);
+	if (abs(b.x - a.x) > abs(b.y - a.y))
+	{
+		if (a.x > b.x)
+		{
+//			ft_swap_point(&a, &b);
+			ft_swap_value(&a.x, &b.x);
+			ft_swap_value(&a.y, &b.y);
+		}
+		ft_bresenham_h(a, b, env);
+	}
+	else
+	{
+		if (a.y > b.y)
+		{
+//			ft_swap_point(&a, &b);
+			ft_swap_value(&a.x, &b.x);
+			ft_swap_value(&a.y, &b.y);
+		}
+		ft_bresenham_v(a, b, env);
+	}
+}
+

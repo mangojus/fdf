@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:30:46 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/11 16:53:07 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/14 14:41:34 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int		fd_close_win(t_env *env)
 	env
 }
 
-void	ft_key_hooks(t_env *env)
+void	ft_hook_controls(t_env *env)
 {
-	if (keycode == ESCAPE)
-		ft_close_win(env);
 	mlx_key_hook(env->win, ft_key_hook ,env->mlx); 
 }

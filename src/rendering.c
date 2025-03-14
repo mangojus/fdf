@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:55:07 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/13 19:29:55 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/14 20:29:29 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	ft_scale_coordinates(t_point *p, t_env *env)
 	double	scale_factor;
 	double	scale_x;
 	double	scale_y;
-//	int	tmp;
+	int	tmp;
 	int	angle;
 
-	angle = 45;
+	angle = 30;
 	env->cam->cos_angle = cos(angle * M_PI / 180);
 	env->cam->sin_angle = sin(angle * M_PI / 180);
 	scale_x = W_WIDTH / env->map->col;
@@ -31,12 +31,12 @@ void	ft_scale_coordinates(t_point *p, t_env *env)
 		scale_factor = scale_y;
 	p->x *= scale_factor;
 	p->y *= scale_factor;
-	p->z *= scale_factor;
-//	tmp = p->x;
+	p->z *= 2;
+	tmp = p->x;
 	if (env->cam->angle != 0)
 	{
-		p->x = (p->x - p->y) * env->cam->cos_angle;
-		p->y = (p->x + p->y) * env->cam->sin_angle - p->z;
+		p->x = (tmp - p->y) * env->cam->cos_angle;
+		p->y = (tmp + p->y) * env->cam->sin_angle - p->z;
 	}
 	p->x *= env->cam->zoom;
 	p->y *= env->cam->zoom;
@@ -63,7 +63,6 @@ static t_point	ft_set_point(int x, int y, t_env *env)
 {
 	t_point	p;
 
-	ft_init_point(&p);
 	p.x = x;
 	p.y = y;
 	p.z = env->map->matrix[y][x];
@@ -76,29 +75,29 @@ static t_point	ft_set_point(int x, int y, t_env *env)
 
 static void	ft_render_line(t_env *env, t_map *map)
 {
-	t_point	p1;
-	t_point	p2;
+	t_point	a;
+	t_point b;
 
-	ft_init_point(&p1);
-	while (p1.y < map->row)
+	ft_init_point(&a);
+	while (a.y < map->row)
 	{
-		p1.x = 0;
-		while (p1.x < map->col)
+		a.x = 0;
+		while (a.x < map->col)
 		{
-			p1 = ft_set_point(p1.x, p1.y, env);
-			if (p1.x < map->col - 1)
+			a = ft_set_point(a.x, a.y, env);
+			if (a.x < map->col - 1)
 			{
-				p2 = ft_set_point(p1.x + 1, p1.y, env);
-				ft_draw_line_h(p1, p2, env);
+				b = ft_set_point(a.x + 1, a.y, env);
+				ft_line_algo(a, b, env);
 			}
-			if (p1.y < map->row - 1)
+			if (a.y < map->row - 1)
 			{
-				p2 = ft_set_point(p1.x, p1.y + 1, env);
-				ft_draw_line_v(p1, p2, env);
+				b = ft_set_point(a.x, a.y + 1, env);
+				ft_line_algo(a, b, env);
 			}
-			p1.x++;
+			a.x++;
 		}
-		p1.y++;
+		a.y++;
 	}
 }
 
