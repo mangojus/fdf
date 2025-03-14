@@ -17,8 +17,12 @@ void	ft_scale_coordinates(t_point *p, t_env *env)
 	double	scale_factor;
 	double	scale_x;
 	double	scale_y;
-	int	tmp;
+//	int	tmp;
+	int	angle;
 
+	angle = 45;
+	env->cam->cos_angle = cos(angle * M_PI / 180);
+	env->cam->sin_angle = sin(angle * M_PI / 180);
 	scale_x = W_WIDTH / env->map->col;
 	scale_y = W_HEIGHT / env->map->row;
 	if (scale_x < scale_y)
@@ -27,12 +31,12 @@ void	ft_scale_coordinates(t_point *p, t_env *env)
 		scale_factor = scale_y;
 	p->x *= scale_factor;
 	p->y *= scale_factor;
-//	p->z *= scale_factor;
-	tmp = p->x;
+	p->z *= scale_factor;
+//	tmp = p->x;
 	if (env->cam->angle != 0)
 	{
-		p->x = (tmp - p->y) * env->cam->cos_angle;
-		p->y = (tmp + p->y) * env->cam->sin_angle - p->z;
+		p->x = (p->x - p->y) * env->cam->cos_angle;
+		p->y = (p->x + p->y) * env->cam->sin_angle - p->z;
 	}
 	p->x *= env->cam->zoom;
 	p->y *= env->cam->zoom;
