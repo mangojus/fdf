@@ -6,7 +6,7 @@
 #    By: rshin <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 17:37:30 by rshin             #+#    #+#              #
-#    Updated: 2025/03/14 14:31:09 by rshin            ###   ########.fr        #
+#    Updated: 2025/03/17 17:51:37 by rshin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,8 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/parsing.c \
 	  $(SRC_DIR)/init.c \
 	  $(SRC_DIR)/algo.c \
-	  $(SRC_DIR)/rendering.c
-#	  $(SRC_DIR)/controls.c
+	  $(SRC_DIR)/rendering.c \
+	  $(SRC_DIR)/controls.c
 
 INC = include
 

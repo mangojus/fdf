@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:16:33 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/11 23:57:38 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/17 23:53:33 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ static char	*ft_read_map(t_map *map, int fd)
 		{
 			dst = ft_strjoin(dst, line);
 			if (dst == NULL)
-				return (free(dst), NULL);
+			{
+				free(line);
+				free(dst);
+				return (NULL);
+			}
 			map->row++;
 			free(line);
 			line = "";
@@ -59,9 +63,9 @@ static void	ft_convert_map(t_map *map, char *str)
 			x++;
 		}
 		y++;
+		ft_free_all((void **)num, map->col + 1);
 	}
-	ft_free_all(tmp);
-	ft_free_all(num);
+	ft_free_all((void **)tmp, map->row + 1);
 }
 
 static void	ft_compute_range(t_map *map)
@@ -87,16 +91,17 @@ static void	ft_compute_range(t_map *map)
 	}
 }
 
-void	ft_parse_map(t_map *map, int fd)
+void	ft_parse_map(t_env *env, int fd)
 {
-	char	*str;
+	char	*buf;
 
-	ft_init_map(map);
-	str = ft_read_map(map, fd);
+	buf = ft_read_map(env->map, fd);
 	close(fd);
-	if (str == NULL)
+	if (buf == NULL)
 		return ;
-	ft_convert_map(map, str);
-	ft_compute_range(map);
+	ft_convert_map(env->map, buf);
+	ft_compute_range(env->map);
+	env->cam->scale_x = W_WIDTH / env->map->col;
+	env->cam->scale_y = W_HEIGHT / env->map->row;
 }
 

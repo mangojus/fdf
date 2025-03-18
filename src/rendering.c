@@ -6,57 +6,27 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:55:07 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/14 20:29:29 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/18 01:03:57 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	ft_scale_coordinates(t_point *p, t_env *env)
-{
-	double	scale_factor;
-	double	scale_x;
-	double	scale_y;
-	int	tmp;
-	int	angle;
-
-	angle = 30;
-	env->cam->cos_angle = cos(angle * M_PI / 180);
-	env->cam->sin_angle = sin(angle * M_PI / 180);
-	scale_x = W_WIDTH / env->map->col;
-	scale_y = W_HEIGHT / env->map->row;
-	if (scale_x < scale_y)
-		scale_factor = scale_x;
-	else
-		scale_factor = scale_y;
-	p->x *= scale_factor;
-	p->y *= scale_factor;
-	p->z *= 2;
-	tmp = p->x;
-	if (env->cam->angle != 0)
-	{
-		p->x = (tmp - p->y) * env->cam->cos_angle;
-		p->y = (tmp + p->y) * env->cam->sin_angle - p->z;
-	}
-	p->x *= env->cam->zoom;
-	p->y *= env->cam->zoom;
-	p->x += (W_WIDTH / 2);
-	p->y += (W_HEIGHT / 2);
-}
 
 void	ft_set_pixel(t_point p, t_env *env)
 {
 	int	offset;
 	
 	offset = (p.y * env->size_line) + (p.x * (env->bpp / 8));
-	if (offset < env->size_line * W_HEIGHT)
+	if (p.x < 0 || p.y < 0)
+		return ;
+	else if (offset < env->size_line * W_HEIGHT)
     {
 		env->addr[offset] = p.color & 0xFF;
 		env->addr[offset + 1] = (p.color >> 8) & 0xFF;
 		env->addr[offset + 2] = (p.color >> 16) & 0xFF;
 	}
-	else
-		printf("Offset out of bounds!\n");
+//	else
+//		printf("Offset out of bounds!\n"); //remove
 }
 
 static t_point	ft_set_point(int x, int y, t_env *env)
@@ -101,12 +71,33 @@ static void	ft_render_line(t_env *env, t_map *map)
 	}
 }
 
+static void	ft_scale_img(t_env *env, t_cam *cam)
+{
+	if (cam->scale_x < cam->scale_y)
+		cam->scale = cam->scale_x;
+	else
+		cam->scale = cam->scale_y;
+	cam->cx = env->map->col / 2;
+	cam->cy = env->map->row / 2;
+	cam->yaw = cam->y_ax * M_PI / 180;
+	cam->pitch = cam->x_ax * M_PI / 180;
+	cam->roll = cam->z_ax * M_PI / 180;
+//	cam->scale = (W_HEIGHT * env->size_line / 4);
+}
+
 void	ft_render_map(t_env *env)
 {
+	ft_bzero(env->addr, W_WIDTH * W_HEIGHT * (env->bpp / 8));
+	if (env->img)
+	{
+		mlx_destroy_image(env->mlx, env->img);
+		mlx_clear_window(env->mlx, env->win);
+	}
 	env->img = mlx_new_image(env->mlx, W_WIDTH, W_HEIGHT);
 	if (!env->img)
 		return ;
 	env->addr = mlx_get_data_addr(env->img, &env->bpp, &env->size_line, &env->endian);
+	ft_scale_img(env, env->cam);
 	ft_render_line(env, env->map);
 //	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }

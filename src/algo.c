@@ -6,7 +6,7 @@
 /*   By: rshin <rshin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:44:15 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/14 20:22:38 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/18 01:07:34 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,42 @@ static void	ft_swap_point(t_point *a, t_point *b)
 	*b = tmp;
 }
 */
+
+void	ft_scale_coordinates(t_point *p, t_cam *cam)
+{
+	t_point	tmp;
+
+	ft_init_point(&tmp);
+//	p->x += cam->cx;
+//	p->y += cam->cy;
+	p->x *= cam->scale;
+	p->y *= cam->scale;
+	p->z *= cam->z_factor;
+	tmp.x = p->x;
+	tmp.y = p->y;
+	tmp.z = p->z;
+//	if (cam->angle != 0)
+//	{
+//		p->x = (tmp_x - p->y) * cam->cos_angle;
+//		p->y = (tmp_x + p->y) * cam->sin_angle - p->z;
+//	}
+	p->x = cos(cam->yaw) * tmp.x + sin(cam->yaw) * tmp.z;
+	p->z = -sin(cam->yaw) * tmp.x + cos(cam->yaw) * tmp.z;
+
+	tmp.y = cos(cam->pitch) * p->y - sin(cam->pitch) * p->z;
+	tmp.z = sin(cam->pitch) * p->y + cos(cam->pitch) * p->z;
+
+	tmp.x = cos(cam->roll) * p->x - sin(cam->roll) * p->y;
+	p->y = sin(cam->roll) * p->x + cos(cam->roll) * tmp.y;
+	p->x = tmp.x;
+	p->x *= cam->zoom;
+	p->y *= cam->zoom;
+	p->x += W_WIDTH / 4;
+	p->y += W_HEIGHT / 4;
+	p->x += cam->x;
+	p->y += cam->y;
+}
+
 static void	ft_bresenham_h(t_point a, t_point b, t_env *env)
 {
 	int	d;
@@ -85,8 +121,8 @@ static void	ft_bresenham_v(t_point a, t_point b, t_env *env)
 
 void	ft_line_algo(t_point a, t_point b, t_env *env)
 {
-	ft_scale_coordinates(&a, env);
-	ft_scale_coordinates(&b, env);
+	ft_scale_coordinates(&a, env->cam);
+	ft_scale_coordinates(&b, env->cam);
 	if (abs(b.x - a.x) > abs(b.y - a.y))
 	{
 		if (a.x > b.x)

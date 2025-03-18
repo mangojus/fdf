@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 22:22:52 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/13 18:42:39 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/18 00:26:26 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,19 @@ void	ft_init_map(t_map *map)
 
 void	ft_init_cam(t_cam *cam)
 {
+	if (W_WIDTH > W_HEIGHT)
+		cam->scale = (W_WIDTH / 2);
+	else
+		cam->scale = (W_HEIGHT / 2);
 	cam->x = 0;
 	cam->y = 0;
-	cam->z = 0;
-//	cam->x_shift = 0;
-//	cam->y_shift = 0;
-	cam->angle = 30;
+	cam->z_factor = 2;
+	cam->x_ax = 0;
+	cam->y_ax = 30;
+	cam->z_ax = 0;
+	cam->yaw = cam->y_ax * M_PI / 180;
+	cam->pitch = cam->x_ax * M_PI / 180;
+	cam->roll = cam->z_ax * M_PI / 180;
 	cam->zoom = 0.5f;
 	cam->cos_angle = cos(cam->angle * M_PI / 180); 
 	cam->sin_angle = sin(cam->angle * M_PI / 180); 
