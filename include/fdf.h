@@ -19,13 +19,20 @@
 # include <stdio.h> //remove
 # include <math.h>
 
-# define W_WIDTH 1920
-# define W_HEIGHT 1080
+# define W_WIDTH 1600
+# define W_HEIGHT 900
 
 # define ARROW_LEFT 65361
 # define ARROW_RIGHT 65363
 # define ARROW_DOWN 65364
 # define ARROW_UP 65362
+
+#define NUM_4 65430
+#define NUM_6 65432
+#define NUM_8 65431
+#define NUM_2 65433
+#define NUM_7 65429
+#define NUM_9 65434
 
 # define KEY_W 119
 # define KEY_S 115

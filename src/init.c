@@ -45,9 +45,9 @@ void	ft_init_cam(t_cam *cam)
 	cam->x = 0;
 	cam->y = 0;
 	cam->z_factor = 2;
-	cam->x_ax = 0;
-	cam->y_ax = 30;
-	cam->z_ax = 0;
+	cam->x_ax = 30;
+	cam->y_ax = 45;
+	cam->z_ax = 45;
 	cam->yaw = cam->y_ax * M_PI / 180;
 	cam->pitch = cam->x_ax * M_PI / 180;
 	cam->roll = cam->z_ax * M_PI / 180;

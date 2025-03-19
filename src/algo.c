@@ -32,6 +32,8 @@ void	ft_scale_coordinates(t_point *p, t_cam *cam)
 	p->x *= cam->scale;
 	p->y *= cam->scale;
 	p->z *= cam->z_factor;
+	p->x -= W_WIDTH / 2;
+	p->y -= W_HEIGHT / 2;
 	tmp.x = p->x;
 	tmp.y = p->y;
 	tmp.z = p->z;
@@ -51,8 +53,8 @@ void	ft_scale_coordinates(t_point *p, t_cam *cam)
 	p->x = tmp.x;
 	p->x *= cam->zoom;
 	p->y *= cam->zoom;
-	p->x += W_WIDTH / 4;
-	p->y += W_HEIGHT / 4;
+	p->x += W_WIDTH / 2;
+	p->y += W_HEIGHT / 2;
 	p->x += cam->x;
 	p->y += cam->y;
 }

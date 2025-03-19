@@ -51,13 +51,17 @@ int	ft_key_controls(int keycode, void *param)
 		env->cam->z_factor -= 1;
 	if (keycode == KEY_C)
 		env->cam->z_factor += 1;
-	if (keycode == KEY_Q)
+	if (keycode == NUM_4)
+		env->cam->y_ax -= 5;
+	if (keycode == NUM_6)
+		env->cam->y_ax += 5;
+	if (keycode == KEY_Q || keycode == NUM_7)
 		env->cam->z_ax += 5;
-	if (keycode == KEY_E)
+	if (keycode == KEY_E || keycode == NUM_9)
 		env->cam->z_ax -= 5;
-	if (keycode == PG_UP && env->cam->pitch < 45)
+	if (keycode == PG_UP || keycode == NUM_8)
 		env->cam->x_ax += 5;
-	if (keycode == PG_DOWN && env->cam->pitch > -45)
+	if (keycode == PG_DOWN || keycode == NUM_2)
 		env->cam->x_ax -= 5;
 	if (keycode == ZOOM_IN && env->cam->zoom < 100)
 		env->cam->zoom *= 1.5;
