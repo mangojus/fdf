@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:55:07 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/18 01:03:57 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:10:24 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,5 @@ void	ft_render_map(t_env *env)
 	env->addr = mlx_get_data_addr(env->img, &env->bpp, &env->size_line, &env->endian);
 	ft_scale_img(env, env->cam);
 	ft_render_line(env, env->map);
-//	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }

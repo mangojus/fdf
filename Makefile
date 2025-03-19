@@ -6,7 +6,7 @@
 #    By: rshin <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 17:37:30 by rshin             #+#    #+#              #
-#    Updated: 2025/03/17 17:51:37 by rshin            ###   ########.fr        #
+#    Updated: 2025/03/19 18:25:26 by rshin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,14 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/init.c \
 	  $(SRC_DIR)/algo.c \
 	  $(SRC_DIR)/rendering.c \
+	  $(SRC_DIR)/camera.c \
 	  $(SRC_DIR)/controls.c
 
 INC = include
 
-LIBMLX = lib/minilibx-linux
+LIBMLX = minilibx-linux
 
-LIBFT = lib/libft
+LIBFT = libft
 
 LIB_A = $(LIBMLX)/libmlx.a \
 		$(LIBFT)/libft.a

@@ -6,7 +6,7 @@
 #    By: rshin <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 20:01:21 by rshin             #+#    #+#              #
-#    Updated: 2025/03/13 20:06:44 by rshin            ###   ########.fr        #
+#    Updated: 2025/03/19 14:37:40 by rshin            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ LIBMEM = ft_memset.c \
 		 ft_memchr.c \
 		 ft_memcmp.c \
 		 ft_bzero.c \
-		 ft_calloc.c
+		 ft_calloc.c \
+		 ft_free_pptr.c
 
 SRC += $(addprefix $(SRC_DIR)libmem/, $(LIBMEM))
 

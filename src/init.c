@@ -6,54 +6,72 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 22:22:52 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/18 00:26:26 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/19 17:26:11 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_init_env(t_env *env)
+t_env	*ft_init_env(void)
 {
-	env->mlx = NULL;
-	env->win = NULL;
+	t_env	*env;
+
+	env = malloc(sizeof(t_env));
+	if (env == NULL)
+		return (NULL);	
+	env->mlx = mlx_init();
+	env->win = mlx_new_window(env->mlx, W_WIDTH, W_HEIGHT, "fdf");
+	if (env->mlx == NULL || env->win == NULL)
+		ft_free_all(env);
 	env->img = NULL;
 	env->addr = NULL;
 	env->bpp = 0;
 	env->size_line = 0;
 	env->endian = 0;
-	env->map = malloc(sizeof(t_map));
-	ft_init_map(env->map);
-	env->cam = malloc(sizeof(t_cam));
-	ft_init_cam(env->cam);
+	env->map = ft_init_map();
+	env->cam = ft_init_cam();
+	if (env->map == NULL || env->cam == NULL)
+		ft_free_all(env);
+	return (env);
 }
 
-void	ft_init_map(t_map *map)
+t_map	*ft_init_map(void)
 {
-	map->matrix = 0;
+	t_map	*map;
+
+	map = malloc(sizeof(t_map));
+	if (map == NULL)
+		return (NULL);
+	map->matrix = NULL;
 	map->row = 0;
 	map->col = 0;
 	map->max = 0;
 	map->min = 0;
+	return (map);
 }
 
-void	ft_init_cam(t_cam *cam)
+t_cam	*ft_init_cam(void)
 {
+	t_cam	*cam;
+
+	cam = malloc(sizeof(t_cam));
+	if (cam == NULL)
+		return (NULL);
 	if (W_WIDTH > W_HEIGHT)
 		cam->scale = (W_WIDTH / 2);
 	else
 		cam->scale = (W_HEIGHT / 2);
 	cam->x = 0;
 	cam->y = 0;
-	cam->z_factor = 2;
+	cam->z_factor = 5;
 	cam->x_ax = 30;
-	cam->y_ax = 45;
-	cam->z_ax = 45;
+	cam->y_ax = 0;
+	cam->z_ax = 30;
 	cam->yaw = cam->y_ax * M_PI / 180;
 	cam->pitch = cam->x_ax * M_PI / 180;
 	cam->roll = cam->z_ax * M_PI / 180;
 	cam->zoom = 0.5f;
-	cam->cos_angle = cos(cam->angle * M_PI / 180); 
-	cam->sin_angle = sin(cam->angle * M_PI / 180); 
+	return (cam);
 }
 
 void	ft_init_point(t_point *p)

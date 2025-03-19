@@ -6,12 +6,12 @@
 /*   By: rshin <rshin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:44:15 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/18 01:07:34 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:10:14 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-/*
+
 static void	ft_swap_point(t_point *a, t_point *b)
 {
 	t_point	tmp;
@@ -20,7 +20,6 @@ static void	ft_swap_point(t_point *a, t_point *b)
 	*a = *b;
 	*b = tmp;
 }
-*/
 
 void	ft_scale_coordinates(t_point *p, t_cam *cam)
 {
@@ -78,7 +77,7 @@ static void	ft_bresenham_h(t_point a, t_point b, t_env *env)
 		while (a.x <= b.x)
 		{
 			ft_set_pixel(a, env);
-			mlx_pixel_put(env->mlx, env->win, a.x, a.y, a.color);
+//			mlx_pixel_put(env->mlx, env->win, a.x, a.y, a.color);
 			a.x++;
 			if (d >= 0)
 			{
@@ -109,7 +108,7 @@ static void	ft_bresenham_v(t_point a, t_point b, t_env *env)
 		while (a.y <= b.y)
 		{
 			ft_set_pixel(a, env);
-			mlx_pixel_put(env->mlx, env->win, a.x, a.y, a.color);
+//			mlx_pixel_put(env->mlx, env->win, a.x, a.y, a.color);
 			a.y++;
 			if (d >= 0)
 			{
@@ -128,21 +127,13 @@ void	ft_line_algo(t_point a, t_point b, t_env *env)
 	if (abs(b.x - a.x) > abs(b.y - a.y))
 	{
 		if (a.x > b.x)
-		{
-//			ft_swap_point(&a, &b);
-			ft_swap_value(&a.x, &b.x);
-			ft_swap_value(&a.y, &b.y);
-		}
+			ft_swap_point(&a, &b);
 		ft_bresenham_h(a, b, env);
 	}
 	else
 	{
 		if (a.y > b.y)
-		{
-//			ft_swap_point(&a, &b);
-			ft_swap_value(&a.x, &b.x);
-			ft_swap_value(&a.y, &b.y);
-		}
+			ft_swap_point(&a, &b);
 		ft_bresenham_v(a, b, env);
 	}
 }

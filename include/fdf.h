@@ -6,7 +6,7 @@
 /*   By: rshin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:24:01 by rshin             #+#    #+#             */
-/*   Updated: 2025/03/17 23:46:20 by rshin            ###   ########.fr       */
+/*   Updated: 2025/03/19 18:24:32 by rshin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,18 @@
 # define ARROW_DOWN 65364
 # define ARROW_UP 65362
 
-#define NUM_4 65430
-#define NUM_6 65432
-#define NUM_8 65431
-#define NUM_2 65433
-#define NUM_7 65429
-#define NUM_9 65434
+# define NUM_4 65430
+# define NUM_6 65432
+# define NUM_8 65431
+# define NUM_2 65433
+# define NUM_7 65429
+# define NUM_9 65434
+
+# define TOP 49
+# define FRONT 50
+# define SIDE 51
+# define ISO 52
+# define RESET 114
 
 # define KEY_W 119
 # define KEY_S 115
@@ -45,6 +51,7 @@
 # define ZOOM_OUT 65453
 
 # define ESC_KEY 65307
+# define DESTROY 17
 
 # define KEY_X 120
 # define KEY_C 99
@@ -105,18 +112,23 @@ typedef struct	s_env
 	t_cam	*cam;	
 }				t_env;
 
+void	ft_view_top(t_cam *cam);
+void	ft_view_front(t_cam *cam);
+void	ft_view_side(t_cam *cam);
+void	ft_view_iso(t_cam *cam);
+void	ft_view_reset(t_cam *cam);
 int		ft_key_controls(int keycode, void *param);
-void	ft_close_win(t_env *env);
+int		ft_close_win(void *param);
 void	ft_scale_coordinates(t_point *p, t_cam *cam);
 void	ft_set_pixel(t_point p, t_env *env);
-void	ft_init_env(t_env *env);
-void	ft_init_map(t_map *map);
+t_env	*ft_init_env(void);
+t_map	*ft_init_map(void);
+t_cam	*ft_init_cam(void);
+void	ft_free_all(t_env *env);
 void	ft_init_point(t_point *p);
-void	ft_init_cam(t_cam *cam);
-void	ft_parse_map(t_env *env, int fd);
+t_map	*ft_parse_map(t_env *env, int fd);
 void	ft_line_algo(t_point p1, t_point p2, t_env *env);
 void	ft_render_map(t_env *env);
-void	ft_free_all(void **str, int row);
 size_t	ft_count_char(char const *str, char c);
 size_t	ft_count_word(char const *str);
 #endif
