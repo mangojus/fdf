@@ -17,7 +17,7 @@ void	ft_free_pptr(void **ptr, size_t size)
 	size_t	i;
 
 	i = 0;
-	while(i < size)
+	while (i < size)
 	{
 		free(ptr[i]);
 		i++;

@@ -40,11 +40,6 @@
 # define ISO 52
 # define RESET 114
 
-# define KEY_W 119
-# define KEY_S 115
-# define KEY_A 97
-# define KEY_D 100
-
 # define MOUSE_WHEEL_UP 4
 # define MOUSE_WHEEL_DOWN 5
 # define ZOOM_IN 65451
@@ -53,53 +48,42 @@
 # define ESC_KEY 65307
 # define DESTROY 17
 
-# define KEY_X 120
-# define KEY_C 99
-# define KEY_Q 113
-# define KEY_E 101
 # define PG_UP 65365
 # define PG_DOWN 65366
 
-typedef struct	s_map
+typedef struct s_map
 {
-	int	**matrix;
-	int	row;
-	int	col;
-	int	max;
-	int	min;
-}				t_map;
+	int		**matrix;
+	int		row;
+	int		col;
+	int		max;
+	int		min;
+}	t_map;
 
-typedef struct	s_point
+typedef struct s_point
 {
 	int				x;
 	int				y;
 	int				z;
 	unsigned int	color;
-}				t_point;
+}	t_point;
 
-typedef struct	s_cam
+typedef struct s_cam
 {
-	double	cx;
-	double	cy;
 	double	x;
 	double	y;
 	double	scale;
-	double	scale_x;
-	double	scale_y;
 	double	z_factor;
-	double	pitch;
 	double	x_ax;
 	double	y_ax;
 	double	z_ax;
 	double	yaw;
+	double	pitch;
 	double	roll;
-	double	angle;
-	double	cos_angle;
-	double	sin_angle;
 	float	zoom;
-}				t_cam;
+}	t_cam;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	void	*mlx;
 	void	*win;
@@ -110,25 +94,27 @@ typedef struct	s_env
 	int		endian;
 	t_map	*map;
 	t_cam	*cam;	
-}				t_env;
+}	t_env;
 
+t_env	*ft_init_env(void);
+t_map	*ft_init_map(void);
+t_cam	*ft_init_cam(void);
+void	ft_init_point(t_point *p);
+t_map	*ft_parse_map(t_env *env, int fd);
+void	ft_render_map(t_env *env);
+void	ft_line_algo(t_point p1, t_point p2, t_env *env);
+void	ft_hook_controls(t_env *env);
+void	ft_scale_coordinates(t_point *p, t_cam *cam);
+void	ft_set_pixel(t_point p, t_env *env);
 void	ft_view_top(t_cam *cam);
 void	ft_view_front(t_cam *cam);
 void	ft_view_side(t_cam *cam);
 void	ft_view_iso(t_cam *cam);
 void	ft_view_reset(t_cam *cam);
 int		ft_key_controls(int keycode, void *param);
-int		ft_close_win(void *param);
-void	ft_scale_coordinates(t_point *p, t_cam *cam);
-void	ft_set_pixel(t_point p, t_env *env);
-t_env	*ft_init_env(void);
-t_map	*ft_init_map(void);
-t_cam	*ft_init_cam(void);
+int		ft_mouse_controls(int button, int x, int y, void *param);
 void	ft_free_all(t_env *env);
-void	ft_init_point(t_point *p);
-t_map	*ft_parse_map(t_env *env, int fd);
-void	ft_line_algo(t_point p1, t_point p2, t_env *env);
-void	ft_render_map(t_env *env);
+int		ft_close_win(void *param);
 size_t	ft_count_char(char const *str, char c);
 size_t	ft_count_word(char const *str);
 #endif

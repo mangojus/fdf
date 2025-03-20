@@ -18,7 +18,7 @@ t_env	*ft_init_env(void)
 
 	env = malloc(sizeof(t_env));
 	if (env == NULL)
-		return (NULL);	
+		return (NULL);
 	env->mlx = mlx_init();
 	env->win = mlx_new_window(env->mlx, W_WIDTH, W_HEIGHT, "fdf");
 	if (env->mlx == NULL || env->win == NULL)

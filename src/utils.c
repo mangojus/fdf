@@ -38,21 +38,16 @@ void	ft_free_all(t_env *env)
 	env->win = NULL;
 	free(env);
 }
-/*
-void	ft_free_pptr(void **ptr, int size)
-{
-	int	i;
 
-	i = 0;
-	while (i < size)
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-	ptr = NULL;
+int	ft_close_win(void *param)
+{
+	t_env	*env;
+
+	env = (t_env *)param;
+	ft_free_all(env);
+	exit (0);
 }
-*/
+
 size_t	ft_count_char(char const *str, char c)
 {
 	size_t	i;

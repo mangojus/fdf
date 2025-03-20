@@ -30,7 +30,6 @@ void	ft_view_front(t_cam *cam)
 	cam->yaw = cam->y_ax * M_PI / 180;
 	cam->pitch = cam->x_ax * M_PI / 180;
 	cam->roll = cam->z_ax * M_PI / 180;
-
 }
 
 void	ft_view_side(t_cam *cam)

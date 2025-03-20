@@ -74,9 +74,7 @@ int		main(int argc, char **argv)
 	env->map = ft_parse_map(env, fd);
 	if (env->map == NULL)
 		return (1);
-	mlx_key_hook(env->win, ft_key_controls, (void *)env);
-//	mlx_mouse_hook(env->win, ft_mouse_controls, (void *)env);
-	mlx_hook(env->win, 17, 0, ft_close_win, (void *)env);
+	ft_hook_controls(env);
 	ft_render_map(env);
 	mlx_loop(env->mlx);
 	return (0);

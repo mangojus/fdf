@@ -39,7 +39,6 @@ static char	*ft_read_map(t_map *map, int fd)
 			line = "";
 		}
 	}
-//	map->row = ft_count_char(dst, '\n'); (if map->row++ works!)
 	return (dst);
 }
 
@@ -84,7 +83,7 @@ static void	ft_compute_range(t_map *map)
 	int		value;
 	int		x;
 	int		y;
-	
+
 	y = 0;
 	while (y < map->row)
 	{
@@ -114,7 +113,5 @@ t_map	*ft_parse_map(t_env *env, int fd)
 	if (env->map == NULL)
 		return (ft_free_all(env), NULL);
 	ft_compute_range(env->map);
-	env->cam->scale_x = W_WIDTH / env->map->col;
-	env->cam->scale_y = W_HEIGHT / env->map->row;
 	return (env->map);
 }

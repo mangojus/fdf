@@ -26,8 +26,6 @@ void	ft_scale_coordinates(t_point *p, t_cam *cam)
 	t_point	tmp;
 
 	ft_init_point(&tmp);
-//	p->x += cam->cx;
-//	p->y += cam->cy;
 	p->x *= cam->scale;
 	p->y *= cam->scale;
 	p->z *= cam->z_factor;
@@ -36,17 +34,10 @@ void	ft_scale_coordinates(t_point *p, t_cam *cam)
 	tmp.x = p->x;
 	tmp.y = p->y;
 	tmp.z = p->z;
-//	if (cam->angle != 0)
-//	{
-//		p->x = (tmp_x - p->y) * cam->cos_angle;
-//		p->y = (tmp_x + p->y) * cam->sin_angle - p->z;
-//	}
 	p->x = cos(cam->yaw) * tmp.x + sin(cam->yaw) * tmp.z;
 	p->z = -sin(cam->yaw) * tmp.x + cos(cam->yaw) * tmp.z;
-
 	tmp.y = cos(cam->pitch) * p->y - sin(cam->pitch) * p->z;
 	tmp.z = sin(cam->pitch) * p->y + cos(cam->pitch) * p->z;
-
 	tmp.x = cos(cam->roll) * p->x - sin(cam->roll) * p->y;
 	p->y = sin(cam->roll) * p->x + cos(cam->roll) * tmp.y;
 	p->x = tmp.x;
@@ -73,7 +64,7 @@ static void	ft_bresenham_h(t_point a, t_point b, t_env *env)
 	dy *= dir;
 	if (dx != 0)
 	{
-		d = 2*dy - dx;
+		d = 2 * dy - dx;
 		while (a.x <= b.x)
 		{
 			ft_set_pixel(a, env);
@@ -82,9 +73,9 @@ static void	ft_bresenham_h(t_point a, t_point b, t_env *env)
 			if (d >= 0)
 			{
 				a.y += dir;
-				d -= 2*dx;
+				d -= 2 * dx;
 			}
-			d += 2*dy;
+			d += 2 * dy;
 		}
 	}
 }
@@ -104,7 +95,7 @@ static void	ft_bresenham_v(t_point a, t_point b, t_env *env)
 	dx *= dir;
 	if (dy != 0)
 	{
-		d = 2*dx - dy;
+		d = 2 * dx - dy;
 		while (a.y <= b.y)
 		{
 			ft_set_pixel(a, env);
@@ -113,9 +104,9 @@ static void	ft_bresenham_v(t_point a, t_point b, t_env *env)
 			if (d >= 0)
 			{
 				a.x += dir;
-				d -= 2*dy;
+				d -= 2 * dy;
 			}
-			d += 2*dx;
+			d += 2 * dx;
 		}
 	}
 }
@@ -137,4 +128,3 @@ void	ft_line_algo(t_point a, t_point b, t_env *env)
 		ft_bresenham_v(a, b, env);
 	}
 }
-
